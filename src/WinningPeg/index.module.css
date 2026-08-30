@@ -1,0 +1,13 @@
+.peg {
+  color: var(--color-danger);
+  font-size: 1rem;
+  font-weight: 700;
+
+  border: 2px solid black;
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
+
+  display: grid;
+  place-items: center;
+}

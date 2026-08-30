@@ -1,0 +1,118 @@
+/* ── Design tokens ───────────────────────────────────────── */
+:root {
+  /* Palette */
+  --color-felt: #0f5132;
+  --color-felt-dark: #0a3d26;
+  --color-accent: #d4a017;
+  --color-danger: #c0392b;
+
+  --color-bg: #f4f6f4;
+  --color-surface: #ffffff;
+  --color-surface-alt: #eaeee9;
+  --color-border: #d5dbd4;
+  --color-text: #16211b;
+  --color-text-muted: #5a6b60;
+  --color-text-invert: #f4f6f4;
+
+  /* Typography */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Ergonomics */
+  --tap-target: 44px;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0a0f0c;
+    --color-surface: #141b16;
+    --color-surface-alt: #1c2620;
+    --color-border: #2a352d;
+    --color-text: #e8ede9;
+    --color-text-muted: #9aa89f;
+    --color-felt: #157347;
+  }
+}
+
+/* ── Reset ───────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100svh;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Disable pull-to-refresh / rubber-banding for an app-like feel */
+  overscroll-behavior-y: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  /* Remove iOS tap highlight; we style :active ourselves */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Comfortable, thumb-friendly hit areas by default */
+button,
+[role="button"] {
+  min-height: var(--tap-target);
+}
+
+:where(a) {
+  color: var(--color-felt);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── App root ────────────────────────────────────────────── */
+#app {
+  /* Center the mobile layout and cap width on larger screens */
+  width: 100%;
+  max-width: 480px;
+  margin-inline: auto;
+  min-height: 100svh;
+}

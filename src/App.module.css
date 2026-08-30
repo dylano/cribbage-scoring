@@ -1,0 +1,6 @@
+.app {
+  display: grid;
+  grid-template-rows: 1fr 100px 1fr;
+  min-height: 100svh;
+  place-items: center;
+}
