@@ -1,6 +1,8 @@
 .app {
+  position: relative;
   display: grid;
-  grid-template-rows: 1fr 100px 1fr;
+  grid-template-rows: 1fr 1rem 1fr;
   min-height: 100svh;
   place-items: center;
+  gap: 0;
 }

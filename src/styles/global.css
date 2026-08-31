@@ -14,6 +14,10 @@
   --color-text-muted: #5a6b60;
   --color-text-invert: #f4f6f4;
 
+  --color-player1: tomato;
+  --color-player2: green;
+  --color-winner: var(--color-bg);
+
   /* Typography */
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -70,20 +74,9 @@ svg {
   max-width: 100%;
 }
 
-button,
-input,
-select,
-textarea {
-  font: inherit;
-  color: inherit;
-}
-
 button {
   cursor: pointer;
-  border: none;
-  background: none;
-  /* Remove iOS tap highlight; we style :active ourselves */
-  -webkit-tap-highlight-color: transparent;
+  /* Avoid the 300ms tap delay / double-tap zoom on touch devices */
   touch-action: manipulation;
 }
 
