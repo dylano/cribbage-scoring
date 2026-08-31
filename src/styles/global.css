@@ -24,20 +24,6 @@
 
   /* Ergonomics */
   --tap-target: 44px;
-
-  color-scheme: light dark;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #0a0f0c;
-    --color-surface: #141b16;
-    --color-surface-alt: #1c2620;
-    --color-border: #2a352d;
-    --color-text: #e8ede9;
-    --color-text-muted: #9aa89f;
-    --color-felt: #157347;
-  }
 }
 
 /* ── Reset ───────────────────────────────────────────────── */
