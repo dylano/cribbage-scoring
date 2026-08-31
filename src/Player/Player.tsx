@@ -4,24 +4,35 @@ import styles from "./Player.module.css";
 
 interface PlayerProps {
   playerId: number;
+  score: number;
+  opponentScore: number;
+  incrementScore: (pts: number) => void;
   winner: number;
   flipped?: boolean;
-  triggerWin: (id: number) => void;
+  resetGame: () => void;
 }
 
-export default function Player({ playerId, winner, flipped, triggerWin }: PlayerProps) {
+export default function Player({
+  playerId,
+  score,
+  opponentScore,
+  incrementScore,
+  winner,
+  flipped,
+  resetGame,
+}: PlayerProps) {
   const hasWon = winner === playerId;
-  const [shouldCelebrate, setShouldCelebrate] = useState(false);
+  const [doCelebration, setDoCelebration] = useState(false);
+  const gameOver = winner !== 0;
 
-  // Drive the confetti burst off the derived win state so a reset (winner -> 0)
-  // fully unwinds it — no stale local flag left behind.
+  // Celebrate the win
   useEffect(() => {
     if (!hasWon) {
-      setShouldCelebrate(false);
+      setDoCelebration(false);
       return;
     }
-    setShouldCelebrate(true);
-    const timer = setTimeout(() => setShouldCelebrate(false), 1500);
+    setDoCelebration(true);
+    const timer = setTimeout(() => setDoCelebration(false), 1500);
     return () => clearTimeout(timer);
   }, [hasWon]);
 
@@ -32,16 +43,28 @@ export default function Player({ playerId, winner, flipped, triggerWin }: Player
       className={classNames}
       style={{ "--player-color": `var(--color-player${playerId})` } as React.CSSProperties}
     >
-      <button onClick={() => triggerWin(playerId)}>Win</button>
+      <div>
+        <p>Me: {score}</p>
+        <p>Them: {opponentScore}</p>
+      </div>
+      <div style={{ display: "flex" }}>
+        <button onClick={() => incrementScore(1)} disabled={gameOver}>
+          +1
+        </button>
+        <button onClick={() => incrementScore(2)} disabled={gameOver}>
+          +2
+        </button>
+        <button onClick={() => incrementScore(5)} disabled={gameOver}>
+          +5
+        </button>
+      </div>
       <div
         style={{
           minHeight: 200,
         }}
       >
-        {hasWon && (
-          <ReactConfetti gravity={0.2} numberOfPieces={150} run recycle={shouldCelebrate} />
-        )}
-        {hasWon && !shouldCelebrate && <button onClick={() => triggerWin(0)}>Reset</button>}
+        {hasWon && <ReactConfetti gravity={0.2} numberOfPieces={150} run recycle={doCelebration} />}
+        {hasWon && !doCelebration && <button onClick={() => resetGame()}>Reset</button>}
       </div>
     </div>
   );

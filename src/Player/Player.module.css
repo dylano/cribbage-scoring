@@ -13,3 +13,7 @@
 .flipped {
   transform: rotate(0.5turn);
 }
+
+button {
+  padding: 1rem;
+}
