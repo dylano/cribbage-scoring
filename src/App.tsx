@@ -8,9 +8,9 @@ export function App() {
 
   return (
     <div className={styles.app}>
-      <Player playerId={1} flipped triggerWin={setWinner} />
+      <Player playerId={1} winner={winner} flipped triggerWin={setWinner} />
       <WinningPeg winner={winner} />
-      <Player playerId={2} triggerWin={setWinner} />
+      <Player playerId={2} winner={winner} triggerWin={setWinner} />
     </div>
   );
 }
