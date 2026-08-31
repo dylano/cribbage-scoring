@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import styles from "./WinningPeg.module.css";
 
 interface WinnerProps {
@@ -6,9 +5,11 @@ interface WinnerProps {
 }
 
 export default function WinningPeg({ winner }: WinnerProps) {
-  const pegRef = useRef<HTMLDivElement>(null);
+  // Only set the winner color when there's a winner; the CSS supplies an
+  // opaque default otherwise so the peg never goes see-through.
+  const style = winner
+    ? ({ "--color-winner": `var(--color-player${winner})` } as React.CSSProperties)
+    : undefined;
 
-  pegRef?.current?.style.setProperty("--color-winner", `var(--color-player${winner}`);
-
-  return <div className={styles.peg} ref={pegRef} />;
+  return <div className={styles.peg} style={style} />;
 }

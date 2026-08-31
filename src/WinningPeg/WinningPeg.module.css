@@ -10,7 +10,7 @@
 
   display: grid;
   place-items: center;
-  background-color: var(--color-winner);
+  background-color: var(--color-winner, var(--color-surface));
 
   &::after {
     content: "";
