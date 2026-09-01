@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ReactConfetti from "react-confetti";
 import styles from "./Player.module.css";
 import ProgressBorder from "../ProgressBorder/ProgressBorder";
-import { WINNING_SCORE } from "../constants";
+import { WINNING_SCORE, WINNING_PEG_DIAMETER, WINNING_PEG_CLEARANCE } from "../constants";
 
 interface PlayerProps {
   playerId: number;
@@ -51,8 +51,7 @@ export default function Player({
         radius={24}
         completeColor={`var(--color-player${playerId})`}
         inset={5}
-        gap={50}
-        gapCenter={0.107}
+        gap={WINNING_PEG_DIAMETER + WINNING_PEG_CLEARANCE * 2}
       />
       <div>
         <p>Me: {score}</p>

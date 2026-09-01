@@ -24,7 +24,10 @@ interface ProgressBorderProps {
   count?: number;
   /** Arc removed from the loop, in px. Nothing is drawn here. */
   gap?: number;
-  /** Where the gap's midpoint sits, as a fraction of the perimeter. */
+  /** Where the gap's midpoint sits, as a fraction of the perimeter. Defaults to
+      the centre of the top edge, recomputed on every resize. A fixed fraction
+      cannot stay centred: the perimeter changes with the container's aspect
+      ratio, so the same value drifts as the viewport does. */
   gapCenter?: number;
   /** Corner radius in px. Match this to the container's border-radius. */
   radius?: number;
@@ -41,7 +44,7 @@ export default function ProgressBorder({
   previousFilled,
   count = 120,
   gap = 0,
-  gapCenter = 0,
+  gapCenter,
   radius = 24,
   inset = 10,
   density = 0.35,
@@ -82,7 +85,16 @@ export default function ProgressBorder({
     // resizes; node spacing absorbs the difference instead.
     const gapFraction = Math.min(0.9, gap / total);
     const span = 1 - gapFraction;
-    const start = gapCenter + gapFraction / 2;
+
+    // A rect's equivalent path starts at (x + rx, y) and runs clockwise, so the
+    // top edge occupies lengths 0 → width - 2 * radius. Centring the gap on its
+    // midpoint puts it where the WinningPeg sits between the two panels, and
+    // re-deriving it here keeps it there as the container resizes — a fixed
+    // fraction slides off centre as soon as the aspect ratio changes.
+    const rectWidth = Math.max(0, size.width - inset * 2);
+    const center = gapCenter ?? Math.max(0, rectWidth - radius * 2) / 2 / total;
+
+    const start = center + gapFraction / 2;
 
     const spacing = count > 1 ? (total * span) / (count - 1) : 0;
 

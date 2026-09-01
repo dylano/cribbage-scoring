@@ -14,8 +14,8 @@
   --color-text-muted: #5a6b60;
   --color-text-invert: #f4f6f4;
 
-  --color-player1: tomato;
-  --color-player2: green;
+  --color-player1: #b00000;
+  --color-player2: #0000b0;
   --color-winner: var(--color-bg);
 
   /* Typography */
