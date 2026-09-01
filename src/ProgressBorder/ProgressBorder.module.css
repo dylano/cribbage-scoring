@@ -17,9 +17,9 @@
 }
 
 .chain {
-  /* Ring colour for nodes that are not yet lit. Dark enough to read against
-     the surface without competing with the lit run. */
-  --muted: oklch(0.68 0.02 255);
+  /* Fill for nodes that are not yet lit. Lighter than it was for rings — a
+     solid disc carries far more weight than an outline at the same colour. */
+  --muted: oklch(0.8 0.02 255);
   --complete: oklch(0.58 0.17 255);
   --node-stroke: 1.5;
 
@@ -41,20 +41,20 @@
      converts it to a number of nodes, so the fade spans one node width. */
   --lit: clamp(0, (var(--progress) - var(--t)) * var(--count), 1);
 
-  /* Unlit nodes are hollow rings. A node fills in as it lights, and its ring
-     shifts from muted to the complete colour so it reads as a solid dot. */
-  fill: var(--complete);
-  fill-opacity: var(--lit);
-  stroke: color-mix(in oklch, var(--muted), var(--complete) calc(var(--lit) * 100%));
-  stroke-width: var(--node-stroke);
+  /* Every node is a solid disc; only the fill colour moves. Keeping the chain
+     one uniform texture is what lets the two pegs stand out by shape. */
+  fill: color-mix(in oklch, var(--muted), var(--complete) calc(var(--lit) * 100%));
 }
 
-/* The back peg. This node is lit, so .node would fill it in; keep it hollow
-   with a complete-coloured ring to mark where the count started.
-   Must stay after .node — same specificity, so source order decides. */
-.marker {
-  fill-opacity: 0;
+/* The two pegs are the only rings on the board. The back peg marks where the
+   count started; the halo is the front peg, ringing the leading disc with a
+   background-coloured gap so it reads as a peg seated in a hole.
+   Both must stay after .node — same specificity, so source order decides. */
+.marker,
+.halo {
+  fill: none;
   stroke: var(--complete);
+  stroke-width: var(--node-stroke);
 }
 
 @media (prefers-reduced-motion: reduce) {

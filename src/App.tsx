@@ -11,8 +11,8 @@ interface PlayerScore {
 
 export function App() {
   const [winner, setWinner] = useState(0);
-  const [player1, setPlayer1] = useState<PlayerScore>({ score: 100, previousScore: 92 });
-  const [player2, setPlayer2] = useState<PlayerScore>({ score: 111, previousScore: 108 });
+  const [player1, setPlayer1] = useState<PlayerScore>({ score: 90, previousScore: 66 });
+  const [player2, setPlayer2] = useState<PlayerScore>({ score: 90, previousScore: 80 });
 
   // check for winner
   useEffect(() => {

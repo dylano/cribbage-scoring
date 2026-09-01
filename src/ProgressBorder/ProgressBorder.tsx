@@ -2,6 +2,15 @@ import { useLayoutEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import styles from "./ProgressBorder.module.css";
 
+/** How much wider a milestone circle is than its neighbours. */
+const MAJOR_SCALE = 1.5;
+
+/** Radius of the front peg's ring, as a multiple of a circle's radius. The
+    ceiling is tighter than it looks: the ring, half its stroke, and the
+    neighbouring circle all have to fit inside one spacing, which puts the
+    limit near 1.9 — and lower again where a milestone sits next door. */
+const HALO_SCALE = 1.7;
+
 interface NodePoint {
   x: number;
   y: number;
@@ -35,6 +44,10 @@ interface ProgressBorderProps {
   inset?: number;
   /** Circle radius as a fraction of the gap between neighbours. 0.5 = touching. */
   density?: number;
+  /** Draw every Nth circle larger as a milestone marker. 0 disables it. The
+      circle standing for position N is the one enlarged, so 10 marks 10, 20,
+      30 rather than 1, 11, 21. */
+  majorEvery?: number;
   completeColor?: string;
   className?: string;
 }
@@ -48,6 +61,7 @@ export default function ProgressBorder({
   radius = 24,
   inset = 10,
   density = 0.35,
+  majorEvery = 0,
   completeColor,
   className,
 }: ProgressBorderProps) {
@@ -121,6 +135,10 @@ export default function ProgressBorder({
   const markerIndex =
     previousFilled !== undefined && previousFilled < filled ? previousFilled - 1 : -1;
 
+  // The front peg sits on the last lit circle. Nothing to ring at zero.
+  const frontIndex = filled >= 1 ? Math.min(filled, count) - 1 : -1;
+  const frontPoint = points[frontIndex];
+
   return (
     <svg
       ref={svgRef}
@@ -147,16 +165,36 @@ export default function ProgressBorder({
         className={styles.geometry}
       />
 
-      {points.map((p, i) => (
+      {points.map((p, i) => {
+        // Circle i stands for position i + 1, so the milestone test counts from
+        // there — otherwise 10 would enlarge 1, 11, 21. A milestone that is also
+        // the front peg stays normal size: the halo needs a background gap
+        // between disc and ring, and an enlarged disc closes it.
+        const major = majorEvery > 0 && (i + 1) % majorEvery === 0 && i !== frontIndex;
+        const classes = [styles.node];
+        if (i === markerIndex) classes.push(styles.marker);
+
+        return (
+          <circle
+            key={p.t}
+            cx={p.x}
+            cy={p.y}
+            r={major ? nodeRadius * MAJOR_SCALE : nodeRadius}
+            className={classes.join(" ")}
+            style={{ "--t": p.t } as CSSProperties}
+          />
+        );
+      })}
+
+      {/* Drawn last so the ring sits above its neighbours' discs. */}
+      {frontPoint && (
         <circle
-          key={p.t}
-          cx={p.x}
-          cy={p.y}
-          r={nodeRadius}
-          className={i === markerIndex ? `${styles.node} ${styles.marker}` : styles.node}
-          style={{ "--t": p.t } as CSSProperties}
+          cx={frontPoint.x}
+          cy={frontPoint.y}
+          r={nodeRadius * HALO_SCALE}
+          className={styles.halo}
         />
-      ))}
+      )}
     </svg>
   );
 }

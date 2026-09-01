@@ -50,7 +50,9 @@ export default function Player({
         count={WINNING_SCORE - 1}
         radius={24}
         completeColor={`var(--color-player${playerId})`}
-        inset={5}
+        inset={7}
+        density={0.27}
+        majorEvery={10}
         gap={WINNING_PEG_DIAMETER + WINNING_PEG_CLEARANCE * 2}
       />
       <div>
