@@ -43,8 +43,16 @@ export function App() {
     setPlayer2({ score: 0, previousScore: 0 });
   }
 
+  const appClassNames = [
+    styles.app,
+    winner === 1 && styles.player1Wins,
+    winner === 2 && styles.player2Wins,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <div className={styles.app}>
+    <div className={appClassNames}>
       <Player
         playerId={1}
         score={player1.score}

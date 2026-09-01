@@ -75,7 +75,7 @@ export default function Player({
           minHeight: 200,
         }}
       >
-        {hasWon && <ReactConfetti gravity={0.2} numberOfPieces={150} run recycle={doCelebration} />}
+        {hasWon && <ReactConfetti gravity={0.3} numberOfPieces={150} run recycle={doCelebration} />}
         {hasWon && !doCelebration && <button onClick={() => resetGame()}>Reset</button>}
       </div>
     </div>

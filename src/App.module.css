@@ -1,3 +1,11 @@
+/* Registering the stop is what makes it animatable — an unregistered custom
+   property would jump straight to its new value instead of sweeping. */
+@property --winner-split {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+
 .app {
   position: relative;
   display: grid;
@@ -5,11 +13,29 @@
   min-height: 100svh;
   place-items: center;
   gap: 0;
+
+  /* Where the two colours meet. Player 1 owns everything above it, player 2
+     everything below, so driving it to an edge hands the screen to one of them. */
+  --winner-split: 50%;
+
   background: linear-gradient(
     to bottom,
-    oklch(from var(--color-player1) l c h / 0.125) 0 50%,
-    oklch(from var(--color-player2) l c h / 0.125) 50% 100%
+    oklch(from var(--color-player1) l c h / 0.125) 0 var(--winner-split),
+    oklch(from var(--color-player2) l c h / 0.125) var(--winner-split) 100%
   );
+
+  transition: --winner-split 1200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The winner's colour takes the whole screen: player 1 sweeps down, player 2
+   sweeps up. Must stay after .app — same specificity, so source order decides.
+   Dropping the class on reset sweeps the split back to the middle. */
+.player1Wins {
+  --winner-split: 100%;
+}
+
+.player2Wins {
+  --winner-split: 0%;
 }
 
 /* Hard cut:
