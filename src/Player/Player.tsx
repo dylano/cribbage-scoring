@@ -7,6 +7,7 @@ import { WINNING_SCORE } from "../constants";
 interface PlayerProps {
   playerId: number;
   score: number;
+  previousScore: number;
   opponentScore: number;
   incrementScore: (pts: number) => void;
   winner: number;
@@ -17,6 +18,7 @@ interface PlayerProps {
 export default function Player({
   playerId,
   score,
+  previousScore,
   opponentScore,
   incrementScore,
   winner,
@@ -44,6 +46,7 @@ export default function Player({
     <div className={classNames}>
       <ProgressBorder
         filled={score}
+        previousFilled={previousScore}
         count={WINNING_SCORE - 1}
         radius={24}
         completeColor={`var(--color-player${playerId})`}

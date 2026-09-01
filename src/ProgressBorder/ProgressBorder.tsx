@@ -16,6 +16,10 @@ interface Size {
 interface ProgressBorderProps {
   /** How many circles are lit, counting from the start point. */
   filled: number;
+  /** Where the count stood before the most recent advance. When set and below
+      `filled`, that circle is drawn as a ring in the complete colour instead of
+      filling in — the cribbage back peg. */
+  previousFilled?: number;
   /** How many circles sit on the border. Fixed regardless of container size. */
   count?: number;
   /** Arc removed from the loop, in px. Nothing is drawn here. */
@@ -34,6 +38,7 @@ interface ProgressBorderProps {
 
 export default function ProgressBorder({
   filled,
+  previousFilled,
   count = 120,
   gap = 0,
   gapCenter = 0,
@@ -99,6 +104,11 @@ export default function ProgressBorder({
 
   const progress = Math.min(1, Math.max(0, filled / count));
 
+  // Node i lights once filled reaches i + 1, so the node standing for a score
+  // sits one index back. -1 when there is no back peg to show.
+  const markerIndex =
+    previousFilled !== undefined && previousFilled < filled ? previousFilled - 1 : -1;
+
   return (
     <svg
       ref={svgRef}
@@ -125,13 +135,13 @@ export default function ProgressBorder({
         className={styles.geometry}
       />
 
-      {points.map((p) => (
+      {points.map((p, i) => (
         <circle
           key={p.t}
           cx={p.x}
           cy={p.y}
           r={nodeRadius}
-          className={styles.node}
+          className={i === markerIndex ? `${styles.node} ${styles.marker}` : styles.node}
           style={{ "--t": p.t } as CSSProperties}
         />
       ))}
