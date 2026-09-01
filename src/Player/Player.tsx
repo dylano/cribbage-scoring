@@ -53,6 +53,7 @@ export default function Player({
         inset={7}
         density={0.27}
         majorEvery={10}
+        reverse={flipped}
         gap={WINNING_PEG_DIAMETER + WINNING_PEG_CLEARANCE * 2}
       />
       <div>

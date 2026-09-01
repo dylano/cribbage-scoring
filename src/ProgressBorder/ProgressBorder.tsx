@@ -48,6 +48,10 @@ interface ProgressBorderProps {
       circle standing for position N is the one enlarged, so 10 marks 10, 20,
       30 rather than 1, 11, 21. */
   majorEvery?: number;
+  /** Lay the circles counter-clockwise instead of clockwise. In a container
+      rotated half a turn this cancels the rotation out, so the run still
+      advances the same way on screen as an unrotated one. */
+  reverse?: boolean;
   completeColor?: string;
   className?: string;
 }
@@ -62,6 +66,7 @@ export default function ProgressBorder({
   inset = 10,
   density = 0.35,
   majorEvery = 0,
+  reverse = false,
   completeColor,
   className,
 }: ProgressBorderProps) {
@@ -108,7 +113,11 @@ export default function ProgressBorder({
     const rectWidth = Math.max(0, size.width - inset * 2);
     const center = gapCenter ?? Math.max(0, rectWidth - radius * 2) / 2 / total;
 
-    const start = center + gapFraction / 2;
+    // Which way round the loop the circles are laid. Reversing starts the run
+    // on the far side of the gap and walks back the other way, so a rotated
+    // container can still read left-to-right on screen.
+    const dir = reverse ? -1 : 1;
+    const start = center + (dir * gapFraction) / 2;
 
     const spacing = count > 1 ? (total * span) / (count - 1) : 0;
 
@@ -121,12 +130,13 @@ export default function ProgressBorder({
         // Geometric position. Divided by count - 1 so the run has a node at
         // both ends of the span rather than stopping one short.
         const tp = count > 1 ? i / (count - 1) : 0;
-        const u = (start + tp * span) % 1;
+        // The extra + 1 keeps u positive once dir turns the walk negative.
+        const u = (((start + dir * tp * span) % 1) + 1) % 1;
         const { x, y } = rect.getPointAtLength(u * total);
         return { x, y, t };
       }),
     );
-  }, [size, count, gap, gapCenter, density, radius, inset]);
+  }, [size, count, gap, gapCenter, density, radius, inset, reverse]);
 
   const progress = Math.min(1, Math.max(0, filled / count));
 
