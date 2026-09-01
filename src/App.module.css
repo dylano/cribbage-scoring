@@ -5,5 +5,25 @@
   min-height: 100svh;
   place-items: center;
   gap: 0;
-  background-color: #00802020;
+  background: linear-gradient(
+    to bottom,
+    oklch(from var(--color-player1) l c h / 0.125) 0 50%,
+    oklch(from var(--color-player2) l c h / 0.125) 50% 100%
+  );
 }
+
+/* Hard cut:
+  background: linear-gradient(
+    to bottom,
+    oklch(from var(--color-player1) l c h / 0.125) 0 50%,
+    oklch(from var(--color-player2) l c h / 0.125) 50% 100%
+  ); 
+  */
+
+/* Full gradient:
+    background: linear-gradient(
+    to bottom,
+    oklch(from var(--color-player1) l c h / 0.125),
+    oklch(from var(--color-player2) l c h / 0.125)
+  ); 
+  */

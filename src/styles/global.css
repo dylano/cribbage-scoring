@@ -7,16 +7,17 @@
   --color-danger: #c0392b;
 
   --color-bg: #f4f6f4;
-  --color-surface: #ffffff;
-  --color-surface-alt: #eaeee9;
+  --color-surface: #eaeee9;
   --color-border: #d5dbd4;
   --color-text: #16211b;
   --color-text-muted: #5a6b60;
   --color-text-invert: #f4f6f4;
 
-  --color-player1: #b00000;
-  --color-player2: #0000b0;
+  --color-player1: rgba(201, 99, 35, 0.488);
+  --color-player2: rgba(44, 44, 232, 0.62);
   --color-winner: var(--color-bg);
+
+  color: rebeccapurple;
 
   /* Typography */
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
