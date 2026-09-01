@@ -1,1 +1,1 @@
-export const WINNING_SCORE = 11;
+export const WINNING_SCORE = 121;

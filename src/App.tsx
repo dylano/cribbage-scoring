@@ -6,8 +6,8 @@ import { WINNING_SCORE } from "./constants.ts";
 
 export function App() {
   const [winner, setWinner] = useState(0);
-  const [p1Score, setP1Score] = useState(0);
-  const [p2Score, setP2Score] = useState(0);
+  const [p1Score, setP1Score] = useState(100);
+  const [p2Score, setP2Score] = useState(105);
 
   // check for winner
   useEffect(() => {

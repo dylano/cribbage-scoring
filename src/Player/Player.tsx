@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import ReactConfetti from "react-confetti";
 import styles from "./Player.module.css";
+import ProgressBorder from "../ProgressBorder/ProgressBorder";
+import { WINNING_SCORE } from "../constants";
 
 interface PlayerProps {
   playerId: number;
@@ -39,10 +41,16 @@ export default function Player({
   const classNames = [styles.player, flipped && styles.flipped].filter(Boolean).join(" ");
 
   return (
-    <div
-      className={classNames}
-      style={{ "--player-color": `var(--color-player${playerId})` } as React.CSSProperties}
-    >
+    <div className={classNames}>
+      <ProgressBorder
+        filled={score}
+        count={WINNING_SCORE - 1}
+        radius={24}
+        completeColor={`var(--color-player${playerId})`}
+        inset={5}
+        gap={50}
+        gapCenter={0.107}
+      />
       <div>
         <p>Me: {score}</p>
         <p>Them: {opponentScore}</p>
